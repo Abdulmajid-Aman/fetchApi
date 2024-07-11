@@ -6,116 +6,374 @@ let photUrl = document.getElementById('image').value
 let photoThumbnail = document.getElementById('thumb').value
 let PhotoTitle = document.getElementById('title').value
 
-// Getting All Resources
 
+// Fetching the Photos from the API
 fetch(apiUrl)
 .then(res => res.json())
-.then(photos => photos.forEach(photo => createPhoto(photo)))
+.then(photo => photo.forEach(photo => renderPhotos(photo)) 
+,)
 
+// Rendering the photos on the DOM
+function renderPhotos(photo) {
+    let photoContainer = document.querySelector('#photo-wrapper')
+    let photoCard = document.createElement('div')
+    photoCard.className = "photo"
 
-// function to create single photo div
+    photoCard.innerHTML =  
+    `<img src =${photo.url}></img>
+    <h3>${photo.title}</h3>
+    <button id = delete  onclick = deleteItem()> Delete </ button >`
+    
 
-function createPhoto(photo){
-    const {albumId, id, title, url, thumbnailUrl} =  photo
-
-    let wrapper = document.getElementById("photo-wrapper")
-
-    const divCard = document.createElement('div')
-    divCard.className = 'photo'
-
-
-    const html = `
-            <div>
-            <img src=${thumbnailUrl}>
-            </div>
-            <div>
-            <h3>Title: ${title}</h3>
-            </div>
-            <div>
-            <button><a href=${url} target="_blank">View Image</a></button>
-            </div>
-            <div class="btn"><button type="button" id="delete" onclick = "deletePhoto(${id})">Delete</button><button type="button" id="edit" onclick= " editPhoto(${albumId}, ${id})">Edit</button></div>
-
-    `
-    divCard.innerHTML = html
-
-    wrapper.appendChild(divCard)
-
-
+    photoContainer.appendChild(photoCard)
 }
 
-// Posting a resource
 
-let form = document.getElementById('form')
-
-form.addEventListener('submit', e =>  {
-
-    // prevent form for reloading
+// Adding an item
+document.querySelector('form').addEventListener('submit', e => {
     e.preventDefault()
-    
-    
-
-    // creating object from form input
-    const formData = {
-        albumId : photoAlbum,
-        url : photUrl,
-        thumbnailUrl: photoThumbnail,
-        title: PhotoTitle
+    const form = {
+        title: PhotoTitle,
+        url: photUrl,
+        thumbnail: photoThumbnail,
+        album: photoAlbum
     }
-   
-    // sending data to the server using fetch api
-    fetch(apiUrl, {
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json",
-            "Accept": "application/json"
+    
+    
+    fetch(apiUrl,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(form)
     })
     .then(res => res.json())
     .then(photo => console.log(photo))
-
-
 })
 
-// Deleting a resource
 
-function deletePhoto(id){
-    console.log(id)
 
-    fetch(`${apiUrl}/${id}`, {
-        method : "DELETE"
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error))
-}
 
-// Editing Photo
 
-function editPhoto(albumId, id){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Getting All Resources
+
+// fetch(apiUrl)
+// .then(res => res.json())
+// .then(photos => photos.forEach(photo => createPhoto(photo)))
+
+
+// // function to create single photo div
+
+// function createPhoto(photo){
+//     const {albumId, id, title, url, thumbnailUrl} =  photo
+
+//     let wrapper = document.getElementById("photo-wrapper")
+
+//     const divCard = document.createElement('div')
+//     divCard.className = 'photo'
+
+
+//     const html = `
+//             <div>
+//             <img src=${thumbnailUrl}>
+//             </div>
+//             <div>
+//             <h3>Title: ${title}</h3>
+//             </div>
+//             <div>
+//             <button><a href=${url} target="_blank">View Image</a></button>
+//             </div>
+//             <div class="btn"><button type="button" id="delete" onclick = "deletePhoto(${id})">Delete</button><button type="button" id="edit" onclick= " editPhoto(${albumId}, ${id})">Edit</button></div>
+
+//     `
+//     divCard.innerHTML = html
+
+//     wrapper.appendChild(divCard)
+//     console.log(divCard);
+
+
+// }
+
+// // Posting a resource
+
+// let form = document.getElementById('form')
+
+// form.addEventListener('submit', e =>  {
+
+//     // prevent form for reloading
+//     e.preventDefault()
+    
+    
+
+//     // creating object from form input
+//     const formData = {
+//         albumId : photoAlbum,
+//         url : photUrl,
+//         thumbnailUrl: photoThumbnail,
+//         title: PhotoTitle
+//     }
+   
+//     // sending data to the server using fetch api
+//     fetch(apiUrl, {
+//         method : "POST",
+//         headers : {
+//             "Content-Type" : "application/json",
+//             "Accept": "application/json"
+//         },
+//         body: JSON.stringify(formData)
+//     })
+//     .then(res => res.json())
+//     .then(photo => console.log(photo))
+
+
+// })
+
+// // Deleting a resource
+
+// function deletePhoto(id){
+//     console.log(id)
+
+//     fetch(`${apiUrl}/${id}`, {
+//         method : "DELETE"
+//     })
+//     .then(res => res.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.log(error))
+// }
+
+// // Editing Photo
+
+// function editPhoto(albumId, id){
    
 
-    // updating form inputs
+//     // updating form inputs
 
-     photoAlbum = albumId
-    //  photUrl = url
-    //  photoThumbnail = thumbnailUrl
-    //  PhotoTitle = title
+//      photoAlbum = albumId
+//     //  photUrl = url
+//     //  photoThumbnail = thumbnailUrl
+//     //  PhotoTitle = title
 
 
-}
+// }
 
-// fetch(`${apiUrl}/${id}`, {
-//     method : "PATCH",
-//     headers : {
-//         "Content-Type" : "application/json",
-//         "Accept" : "application/json"
-//     },
-//     body : JSON.stringify({
+// // fetch(`${apiUrl}/${id}`, {
+// //     method : "PATCH",
+// //     headers : {
+// //         "Content-Type" : "application/json",
+// //         "Accept" : "application/json"
+// //     },
+// //     body : JSON.stringify({
 
-//     })
-// })
-// .then(res => res.json())
-// .then(photo => console.log(photo))
+// //     })
+// // })
+// // .then(res => res.json())
+// // .then(photo => console.log(photo))
 
